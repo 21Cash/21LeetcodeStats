@@ -1,8 +1,8 @@
+
 import {
   getLowestRatedGuardianUserInfo,
   getLowestRatedKnightUserInfo,
 } from '@/app/api/Utils';
-import clsx from 'clsx';
 
 export const revalidate = 1800;
 

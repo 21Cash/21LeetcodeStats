@@ -1,12 +1,8 @@
+import { NextResponse } from 'next/server';
+
 import {
   getLowestRatedGuardianUserInfo,
-  getUserContestBadge,
-  getUserContestBadgeByRank,
 } from '@/app/api/Utils';
-import { attachReactRefresh } from 'next/dist/build/webpack-config';
-import { requestToBodyStream } from 'next/dist/server/body-streams';
-import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
 
 export async function GET() {
   try {

@@ -1,12 +1,7 @@
-import { BaggageClaim, Variable } from 'lucide-react';
-import { requestToBodyStream } from 'next/dist/server/body-streams';
-import {
-  COMPILER_NAMES,
-  MIDDLEWARE_REACT_LOADABLE_MANIFEST,
-} from 'next/dist/shared/lib/constants';
-import { userAgent } from 'next/server';
 
-const usersPerPage: number = 25;
+
+
+const usersPerPage = 25;
 const apiEndpoint = process.env.LC_API_URL as string;
 
 const getUserContestBadge = async (username: string) => {
@@ -260,12 +255,12 @@ function getCurrentUTCTime() {
 }
 
 export {
-  getTotalParticipantsCount,
-  getUserContestBadgeByRank,
-  getPage,
-  getUserInfo,
-  getUserContestBadge,
+  getCurrentUTCTime,
   getLowestRatedGuardianUserInfo,
   getLowestRatedKnightUserInfo,
-  getCurrentUTCTime,
+  getPage,
+  getTotalParticipantsCount,
+  getUserContestBadge,
+  getUserContestBadgeByRank,
+  getUserInfo,
 };

@@ -1,8 +1,9 @@
+import { NextResponse } from 'next/server';
+
 import {
   getCurrentUTCTime,
   getLowestRatedKnightUserInfo,
 } from '@/app/api/Utils';
-import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
