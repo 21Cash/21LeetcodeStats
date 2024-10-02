@@ -24,14 +24,14 @@ export default async function MainPage() {
   return (
     <main className='relative min-h-screen bg-dark text-white'>
       <header className='absolute top-0 left-0 w-full flex justify-center mt-20'>
-        <h1 className='text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-green-400 to-sky-400 text-transparent bg-clip-text animate-pulse drop-shadow-lg'>
+        <h1 className='text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-green-400 to-sky-400 text-transparent bg-clip-text drop-shadow-lg'>
           21LeetcodeStats
         </h1>
       </header>
 
       <section className='flex items-center justify-center min-h-screen'>
         <div className='flex justify-center gap-36 w-full max-w-6xl'>
-          <div className='flex flex-col items-center bg-gray-800 p-10 rounded-lg shadow-lg w-6/12'>
+          <div className='flex flex-col items-center bg-gray-800 p-10 rounded-lg shadow-lg w-6/12 hover:shadow-2xl transition-shadow duration-300 ease-in-out ring-2 ring-blue-500'>
             <img
               src='/Guardian.gif'
               alt='Guardian'
@@ -52,7 +52,7 @@ export default async function MainPage() {
             <p className='text-sm mt-2'>Last Updated: {lastFetched}</p>
           </div>
 
-          <div className='flex flex-col items-center bg-gray-800 p-10 rounded-lg shadow-lg w-6/12'>
+          <div className='flex flex-col items-center bg-gray-800 p-10 rounded-lg shadow-lg w-6/12 hover:shadow-2xl transition-shadow duration-300 ease-in-out ring-2 ring-green-500'>
             <img src='/Knight.gif' alt='Knight' className='w-40 h-40 mb-4' />
             <h3 className='text-lg font-semibold'>Lowest Rated Knight:</h3>
             <a

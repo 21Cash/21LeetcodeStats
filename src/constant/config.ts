@@ -1,7 +1,6 @@
 export const siteConfig = {
-  title: 'Next.js + Tailwind CSS + TypeScript Starter',
+  title: '21LeetcodeStats',
   description:
-    'A starter for Next.js, Tailwind CSS, and TypeScript with Absolute Import, Seo, Link component, pre-configured with Husky',
-  /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
+    'A Simple Site to know min rating required for Leetcode Knight and Guardian.',
   url: 'https://tsnext-tw.thcl.dev',
 };
