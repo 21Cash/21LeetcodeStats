@@ -1,6 +1,3 @@
-
-
-
 const usersPerPage = 25;
 const apiEndpoint = process.env.LC_API_URL as string;
 
@@ -95,6 +92,7 @@ const getUserInfo = async (userRank: number) => {
         username: userData.user.username,
         userRating: userData.currentRating,
         userBadge,
+        userGlobalRanking: userData.currentGlobalRanking,
       };
     }
   }
@@ -189,10 +187,12 @@ const getLowestRatedGuardianUserInfo = async () => {
 
   let bestUsername = '';
   let bestRating = null;
+  let bestGlobalRanking = null;
 
   while (lowRank <= highRank) {
     const midRank = Math.floor((lowRank + highRank) / 2);
-    const { username, userBadge, userRating } = await getUserInfo(midRank);
+    const { username, userBadge, userRating, userGlobalRanking } =
+      await getUserInfo(midRank);
 
     console.log(midRank);
 
@@ -200,14 +200,15 @@ const getLowestRatedGuardianUserInfo = async () => {
       bestUsername = username;
       bestRating = userRating;
       lowRank = midRank + 1;
+      bestGlobalRanking = userGlobalRanking;
     } else {
       highRank = midRank - 1;
     }
   }
-  console.log(getCurrentUTCTime());
   const data = {
     username: bestUsername,
     userRating: bestRating,
+    userGlobalRanking: bestGlobalRanking,
   };
 
   return data;
@@ -220,10 +221,12 @@ const getLowestRatedKnightUserInfo = async () => {
 
   let bestUsername = '';
   let bestRating = null;
+  let bestGlobalRanking = null;
 
   while (lowRank <= highRank) {
     const midRank = Math.floor((lowRank + highRank) / 2);
-    const { username, userBadge, userRating } = await getUserInfo(midRank);
+    const { username, userBadge, userRating, userGlobalRanking } =
+      await getUserInfo(midRank);
 
     console.log(midRank);
 
@@ -231,6 +234,7 @@ const getLowestRatedKnightUserInfo = async () => {
       bestUsername = username;
       bestRating = userRating;
       lowRank = midRank + 1;
+      bestGlobalRanking = userGlobalRanking;
     } else {
       highRank = midRank - 1;
     }
@@ -239,6 +243,7 @@ const getLowestRatedKnightUserInfo = async () => {
   const data = {
     username: bestUsername,
     userRating: bestRating,
+    userGlobalRanking: bestGlobalRanking,
   };
 
   return data;
