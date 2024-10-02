@@ -1,10 +1,9 @@
-
 import {
   getLowestRatedGuardianUserInfo,
   getLowestRatedKnightUserInfo,
 } from '@/app/api/Utils';
 
-export const revalidate = 1800;
+export const revalidate = 900;
 
 let lastFetched: string | undefined;
 
