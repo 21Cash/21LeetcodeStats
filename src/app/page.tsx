@@ -3,7 +3,7 @@ import {
   getLowestRatedKnightUserInfo,
 } from '@/app/api/Utils';
 
-export const revalidate = 900;
+export const revalidate = 30;
 
 let lastFetched: string | undefined;
 
@@ -20,6 +20,11 @@ async function fetchData() {
 
 export default async function MainPage() {
   const { guardianInfo, knightInfo, lastFetched } = await fetchData();
+
+  const lastUpdatedDate = new Date(lastFetched)
+    .toISOString()
+    .replace(/[-:]/g, '')
+    .split('.')[0];
 
   return (
     <main className='relative min-h-screen bg-dark text-white'>
@@ -49,7 +54,20 @@ export default async function MainPage() {
             <p className='text-base mt-2'>
               Rating: {parseFloat(guardianInfo.userRating).toFixed(2)}
             </p>
-            <p className='text-sm mt-2'>Last Updated: {lastFetched}</p>
+            <p className='text-base mt-2'>
+              Global Ranking: {guardianInfo.userGlobalRanking}
+            </p>
+            <p className='text-sm mt-2'>
+              Last Updated:
+              <a
+                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${lastUpdatedDate}&ah=5&am=0&msg=Guardian%20Last%20Updated`}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-blue-400 hover:underline ml-1'
+              >
+                {lastFetched}
+              </a>
+            </p>
           </div>
 
           <div className='flex flex-col items-center bg-gray-800 p-10 rounded-lg shadow-lg w-6/12 hover:shadow-2xl transition-shadow duration-300 ease-in-out ring-2 ring-green-500'>
@@ -66,7 +84,20 @@ export default async function MainPage() {
             <p className='text-base mt-2'>
               Rating: {parseFloat(knightInfo.userRating).toFixed(2)}
             </p>
-            <p className='text-sm mt-2'>Last Updated: {lastFetched}</p>
+            <p className='text-base mt-2'>
+              Global Ranking: {knightInfo.userGlobalRanking}
+            </p>
+            <p className='text-sm mt-2'>
+              Last Updated:
+              <a
+                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${lastUpdatedDate}&ah=5&am=0&msg=Knight%20Last%20Updated`}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-blue-400 hover:underline ml-1'
+              >
+                {lastFetched}
+              </a>
+            </p>
           </div>
         </div>
       </section>
