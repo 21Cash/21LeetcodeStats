@@ -49,9 +49,6 @@ export default async function MainPage() {
             <p className='text-base mt-2'>
               Rating: {parseFloat(guardianInfo.userRating).toFixed(2)}
             </p>
-            <p className='text-base mt-2'>
-              Global Ranking: {guardianInfo.userGlobalRanking}
-            </p>
             <p className='text-sm mt-2'>Last Updated: {lastFetched}</p>
           </div>
 
@@ -68,9 +65,6 @@ export default async function MainPage() {
             </a>
             <p className='text-base mt-2'>
               Rating: {parseFloat(knightInfo.userRating).toFixed(2)}
-            </p>
-            <p className='text-base mt-2'>
-              Global Ranking: {knightInfo.userGlobalRanking}
             </p>
             <p className='text-sm mt-2'>Last Updated: {lastFetched}</p>
           </div>

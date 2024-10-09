@@ -7,9 +7,16 @@ import {
   getUserRating,
 } from '@/app/api/Utils';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    return NextResponse.json({ msg: 'Done' });
+    const { searchParams } = new URL(request.url);
+
+    const rank = Number(searchParams.get('rank'));
+    const username = await getUsernameByRank(Number(rank));
+    const data = {
+      username,
+    };
+    return NextResponse.json({ data });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

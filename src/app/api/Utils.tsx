@@ -29,10 +29,10 @@ const getUserRating = async (username) => {
       }),
     });
 
-    // console.log(`Fetching Rating Data for username: ${username}`);
+    console.log(`Fetching Rating Data for username: ${username}`);
 
     const data = await response.json();
-    // console.log(`Fetched Rating Data:`, data);
+    console.log(`Fetched Rating Data:`, data);
 
     if (data.errors && data.errors.length > 0) {
       console.error(`Error fetching user rating: ${data.errors[0].message}`);
@@ -46,7 +46,7 @@ const getUserRating = async (username) => {
 
     const rating = data.data.userContestRanking.rating;
 
-    // console.log(`${username} has a rating of ${rating}`);
+    console.log(`${username} has a rating of ${rating}`);
 
     return rating;
   } catch (error) {
@@ -84,7 +84,7 @@ const getUserContestBadge = async (username) => {
       }),
     });
 
-    // console.log(`Fetching Data for username: ${username}`);
+    console.log(`Fetching Data for username: ${username}`);
 
     const data = await response.json();
     if (!data || !data.data || !data.data.matchedUser) {
@@ -100,9 +100,9 @@ const getUserContestBadge = async (username) => {
     }
 
     const rating = await getUserRating(username);
-    // console.log(
-    //   `${username} has a badge of ${badge.name} and a rating of ${rating}`
-    // );
+    console.log(
+      `${username} has a badge of ${badge.name} and a rating of ${rating}`
+    );
 
     return {
       badgeName: badge.name,
@@ -113,7 +113,6 @@ const getUserContestBadge = async (username) => {
     return null;
   }
 };
-// console.log(`Page Index : ${pageIndex}`);
 
 const getClistPageIndex = (rank: number) => {
   if (rank >= 1 && rank <= 10) return 1;
@@ -156,11 +155,11 @@ const getUsernameByRank = async (userRank) => {
 };
 
 const getUserInfo = async (userRank) => {
-  // console.log(`Fetching Info For User with rank: ${userRank}`);
+  console.log(`Fetching Info For User with rank: ${userRank}`);
 
   try {
     const username = await getUsernameByRank(userRank);
-    // console.log(`Username with Rank :${userRank} : ${username}`);
+    console.log(`Username with Rank :${userRank} : ${username}`);
 
     const { badgeName, rating } = await getUserContestBadge(username);
 
@@ -249,7 +248,7 @@ const getTotalParticipantsCount = async (): Promise<number> => {
 };
 
 const getLowestRatedGuardianUserInfo = async () => {
-  // console.log(`Searching For Lowest Rated Guardian.`);
+  console.log(`Searching For Lowest Rated Guardian.`);
   let lowRank = 1;
   let highRank = await getTotalParticipantsCount();
 
@@ -257,14 +256,19 @@ const getLowestRatedGuardianUserInfo = async () => {
   let bestRating = null;
   let bestGlobalRanking = null;
 
+  let iterations = 0;
+
   while (lowRank <= highRank) {
     const midRank = Math.floor((lowRank + highRank) / 2);
-
+    iterations++;
     try {
-      const { username, userBadge, userRating, userGlobalRanking } =
-        await getUserInfo(midRank);
+      const userData = await getUserInfo(midRank);
+      const { username, userBadge, userRating, userGlobalRanking } = userData;
 
-      // console.log(midRank);
+      console.log();
+      console.log(lowRank, midRank);
+      console.log(userData);
+      console.log();
 
       if (userBadge === 'Guardian') {
         bestUsername = username;
@@ -278,7 +282,7 @@ const getLowestRatedGuardianUserInfo = async () => {
       console.error(
         `Error fetching user info for rank ${midRank}: ${error.message}`
       );
-      highRank--;
+      lowRank++;
     }
   }
 
@@ -288,11 +292,13 @@ const getLowestRatedGuardianUserInfo = async () => {
     userGlobalRanking: bestGlobalRanking,
   };
 
+  console.log(`total iterations : ${iterations}`);
+
   return data;
 };
 
 const getLowestRatedKnightUserInfo = async () => {
-  // console.log(`Searching For Lowest Rated Knight.`);
+  console.log(`Searching For Lowest Rated Knight.`);
   let lowRank = 1;
   let highRank = await getTotalParticipantsCount();
 
@@ -300,14 +306,16 @@ const getLowestRatedKnightUserInfo = async () => {
   let bestRating = null;
   let bestGlobalRanking = null;
 
+  let iterations = 0;
+
   while (lowRank <= highRank) {
     const midRank = Math.floor((lowRank + highRank) / 2);
-
+    iterations++;
     try {
-      const { username, userBadge, userRating, userGlobalRanking } =
-        await getUserInfo(midRank);
+      const userData = await getUserInfo(midRank);
+      const { username, userBadge, userRating, userGlobalRanking } = userData;
 
-      // console.log(midRank);
+      console.log(`low, high : ${lowRank}, ${highRank}`);
 
       if (userBadge === 'Knight' || userBadge === 'Guardian') {
         bestUsername = username;
@@ -321,9 +329,11 @@ const getLowestRatedKnightUserInfo = async () => {
       console.error(
         `Error fetching user info for rank ${midRank}: ${error.message}`
       );
-      highRank--;
+      lowRank++;
     }
   }
+
+  console.log(`total iterations for Knight : ${iterations}`);
 
   const data = {
     username: bestUsername,
