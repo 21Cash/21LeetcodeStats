@@ -3,24 +3,13 @@ import {
   getLowestRatedKnightUserInfo,
 } from '@/app/api/Utils';
 
-export const revalidate = Number(process.env.CACHE_INVALIDATE_SECONDS) || 1800;
+export const revalidate = 900;
 
 let lastFetched: string | undefined;
-let cachedData: { guardianInfo: any; knightInfo: any } | undefined;
-let lastFetchTime: number | undefined;
 
 async function fetchData() {
-  const currentTime = Math.floor(Date.now() / 1000);
-
-  if (cachedData && lastFetchTime && currentTime - lastFetchTime < revalidate) {
-    return { ...cachedData, lastFetched };
-  }
-
   const guardianInfo = await getLowestRatedGuardianUserInfo();
   const knightInfo = await getLowestRatedKnightUserInfo();
-
-  cachedData = { guardianInfo, knightInfo };
-  lastFetchTime = currentTime;
 
   if (!lastFetched) {
     lastFetched = new Date().toUTCString();
