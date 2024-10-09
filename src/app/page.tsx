@@ -3,7 +3,7 @@ import {
   getLowestRatedKnightUserInfo,
 } from '@/app/api/Utils';
 
-export const revalidate = 30;
+export const revalidate = 900;
 
 let lastFetched: string | undefined;
 
