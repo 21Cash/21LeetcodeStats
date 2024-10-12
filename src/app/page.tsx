@@ -76,7 +76,7 @@ export default async function MainPage() {
             <p className='text-sm mt-2'>
               Last Updated:
               <a
-                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${guardianLastUpdatedISO}&ah=5&am=0&msg=Guardian%20Last%20Updated`}
+                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${guardianLastUpdatedISO}&msg=Guardian%20Last%20Updated`}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='text-blue-400 hover:underline ml-1'
@@ -106,7 +106,7 @@ export default async function MainPage() {
             <p className='text-sm mt-2'>
               Last Updated:
               <a
-                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${knightLastUpdatedISO}&ah=5&am=0&msg=Knight%20Last%20Updated`}
+                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${knightLastUpdatedISO}&msg=Knight%20Last%20Updated`}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='text-blue-400 hover:underline ml-1'
