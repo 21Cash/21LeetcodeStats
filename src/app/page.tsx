@@ -2,29 +2,64 @@ import {
   getLowestRatedGuardianUserInfo,
   getLowestRatedKnightUserInfo,
 } from '@/app/api/Utils';
+import { initializeApp } from 'firebase/app';
+import { collection, doc, getDoc, getFirestore } from 'firebase/firestore';
 
-export const revalidate = 900;
+const revalidateSeconds = 1800;
 
-let lastFetched: string | undefined;
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+};
 
-async function fetchData() {
-  const guardianInfo = await getLowestRatedGuardianUserInfo();
-  const knightInfo = await getLowestRatedKnightUserInfo();
-
-  if (!lastFetched) {
-    lastFetched = new Date().toUTCString();
-  }
-
-  return { guardianInfo, knightInfo, lastFetched };
-}
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 export default async function MainPage() {
-  const { guardianInfo, knightInfo, lastFetched } = await fetchData();
+  const guardianInfoResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/guardian-stats`,
+    {
+      next: { revalidate: revalidateSeconds },
+    }
+  );
+  const knightInfoResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/knight-stats`,
+    {
+      next: { revalidate: revalidateSeconds },
+    }
+  );
 
-  const lastUpdatedDate = new Date(lastFetched)
-    .toISOString()
-    .replace(/[-:]/g, '')
-    .split('.')[0];
+  const guardianInfo = await guardianInfoResponse.json();
+  const knightInfo = await knightInfoResponse.json();
+
+  const lastUpdatedTimestamp = knightInfo.lastUpdated;
+  const lastUpdatedDate = lastUpdatedTimestamp
+    ? new Date(
+        lastUpdatedTimestamp.seconds * 1000 +
+          lastUpdatedTimestamp.nanoseconds / 1000000
+      )
+    : null;
+
+  const guardianUsernameURL = `https://leetcode.com/${guardianInfo.username}`;
+  const knightUsernameURL = `https://leetcode.com/${knightInfo.username}`;
+
+  const guardianLastUpdatedISO = lastUpdatedDate
+    ? lastUpdatedDate.toISOString()
+    : '';
+  const guardianLastUpdatedUTC = lastUpdatedDate
+    ? lastUpdatedDate.toUTCString()
+    : 'N/A';
+
+  const knightLastUpdatedISO = lastUpdatedDate
+    ? lastUpdatedDate.toISOString()
+    : '';
+  const knightLastUpdatedUTC = lastUpdatedDate
+    ? lastUpdatedDate.toUTCString()
+    : 'N/A';
 
   return (
     <main className='relative min-h-screen bg-dark text-white'>
@@ -44,7 +79,7 @@ export default async function MainPage() {
             />
             <h3 className='text-lg font-semibold'>Lowest Rated Guardian:</h3>
             <a
-              href={`https://leetcode.com/${guardianInfo.username}`}
+              href={guardianUsernameURL}
               target='_blank'
               rel='noopener noreferrer'
               className='text-base text-blue-400 hover:underline mt-2'
@@ -60,12 +95,12 @@ export default async function MainPage() {
             <p className='text-sm mt-2'>
               Last Updated:
               <a
-                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${lastUpdatedDate}&ah=5&am=0&msg=Guardian%20Last%20Updated`}
+                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${guardianLastUpdatedISO}&ah=5&am=0&msg=Guardian%20Last%20Updated`}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='text-blue-400 hover:underline ml-1'
               >
-                {lastFetched}
+                {guardianLastUpdatedUTC}
               </a>
             </p>
           </div>
@@ -74,7 +109,7 @@ export default async function MainPage() {
             <img src='/Knight.gif' alt='Knight' className='w-40 h-40 mb-4' />
             <h3 className='text-lg font-semibold'>Lowest Rated Knight:</h3>
             <a
-              href={`https://leetcode.com/${knightInfo.username}`}
+              href={knightUsernameURL}
               target='_blank'
               rel='noopener noreferrer'
               className='text-base text-blue-400 hover:underline mt-2'
@@ -90,12 +125,12 @@ export default async function MainPage() {
             <p className='text-sm mt-2'>
               Last Updated:
               <a
-                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${lastUpdatedDate}&ah=5&am=0&msg=Knight%20Last%20Updated`}
+                href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${knightLastUpdatedISO}&ah=5&am=0&msg=Knight%20Last%20Updated`}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='text-blue-400 hover:underline ml-1'
               >
-                {lastFetched}
+                {knightLastUpdatedUTC}
               </a>
             </p>
           </div>
@@ -126,3 +161,5 @@ export default async function MainPage() {
     </main>
   );
 }
+
+export { db };
