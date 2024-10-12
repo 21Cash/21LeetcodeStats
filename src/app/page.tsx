@@ -17,29 +17,34 @@ export default async function MainPage() {
   const guardianInfo = await guardianInfoResponse.json();
   const knightInfo = await knightInfoResponse.json();
 
-  const lastUpdatedTimestamp = knightInfo.lastUpdated;
-  const lastUpdatedDate = lastUpdatedTimestamp
+  const guardianLastUpdatedTimestamp = guardianInfo.lastUpdated;
+  const guardianLastUpdatedDate = guardianLastUpdatedTimestamp
     ? new Date(
-        lastUpdatedTimestamp.seconds * 1000 +
-          lastUpdatedTimestamp.nanoseconds / 1000000
+        guardianLastUpdatedTimestamp.seconds * 1000 +
+          guardianLastUpdatedTimestamp.nanoseconds / 1000000
       )
     : null;
 
-  const guardianUsernameURL = `https://leetcode.com/${guardianInfo.username}`;
-  const knightUsernameURL = `https://leetcode.com/${knightInfo.username}`;
+  const knightLastUpdatedTimestamp = knightInfo.lastUpdated;
+  const knightLastUpdatedDate = knightLastUpdatedTimestamp
+    ? new Date(
+        knightLastUpdatedTimestamp.seconds * 1000 +
+          knightLastUpdatedTimestamp.nanoseconds / 1000000
+      )
+    : null;
 
-  const guardianLastUpdatedISO = lastUpdatedDate
-    ? lastUpdatedDate.toISOString()
+  const guardianLastUpdatedISO = guardianLastUpdatedDate
+    ? guardianLastUpdatedDate.toISOString()
     : '';
-  const guardianLastUpdatedUTC = lastUpdatedDate
-    ? lastUpdatedDate.toUTCString()
+  const guardianLastUpdatedUTC = guardianLastUpdatedDate
+    ? guardianLastUpdatedDate.toUTCString()
     : 'N/A';
 
-  const knightLastUpdatedISO = lastUpdatedDate
-    ? lastUpdatedDate.toISOString()
+  const knightLastUpdatedISO = knightLastUpdatedDate
+    ? knightLastUpdatedDate.toISOString()
     : '';
-  const knightLastUpdatedUTC = lastUpdatedDate
-    ? lastUpdatedDate.toUTCString()
+  const knightLastUpdatedUTC = knightLastUpdatedDate
+    ? knightLastUpdatedDate.toUTCString()
     : 'N/A';
 
   return (
@@ -60,7 +65,7 @@ export default async function MainPage() {
             />
             <h3 className='text-lg font-semibold'>Lowest Rated Guardian:</h3>
             <a
-              href={guardianUsernameURL}
+              href={`https://leetcode.com/${guardianInfo.username}`}
               target='_blank'
               rel='noopener noreferrer'
               className='text-base text-blue-400 hover:underline mt-2'
@@ -86,11 +91,12 @@ export default async function MainPage() {
             </p>
           </div>
 
+          {/* Knight Info */}
           <div className='flex flex-col items-center bg-gray-800 p-10 rounded-lg shadow-lg w-6/12 hover:shadow-2xl transition-shadow duration-300 ease-in-out ring-2 ring-green-500'>
             <img src='/Knight.gif' alt='Knight' className='w-40 h-40 mb-4' />
             <h3 className='text-lg font-semibold'>Lowest Rated Knight:</h3>
             <a
-              href={knightUsernameURL}
+              href={`https://leetcode.com/${knightInfo.username}`}
               target='_blank'
               rel='noopener noreferrer'
               className='text-base text-blue-400 hover:underline mt-2'
