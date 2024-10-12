@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/app/page';
+import { db } from '@/constant/firebaseConfig';
 
 const getGuardianData = async () => {
   const guardianDataRef = doc(db, 'GuardianStats', 'stats');
