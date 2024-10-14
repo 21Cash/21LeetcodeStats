@@ -1,16 +1,14 @@
-const revalidateSeconds = 1800;
-
 export default async function MainPage() {
   const guardianInfoResponse = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/guardian-stats`,
     {
-      next: { revalidate: revalidateSeconds },
+      next: { revalidate: 900 },
     }
   );
   const knightInfoResponse = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/knight-stats`,
     {
-      next: { revalidate: revalidateSeconds },
+      next: { revalidate: 900 },
     }
   );
 
@@ -57,6 +55,7 @@ export default async function MainPage() {
 
       <section className='flex items-center justify-center min-h-screen'>
         <div className='flex justify-center gap-36 w-full max-w-6xl'>
+          {/* Guardian Info */}
           <div className='flex flex-col items-center bg-gray-800 p-10 rounded-lg shadow-lg w-6/12 hover:shadow-2xl transition-shadow duration-300 ease-in-out ring-2 ring-blue-500'>
             <img
               src='/Guardian.gif'
@@ -124,6 +123,14 @@ export default async function MainPage() {
         </div>
       </section>
 
+      {/* Note Section */}
+      <div className='absolute bottom-20 left-0 w-full py-2 text-center'>
+        <p className='text-sm text-gray-400'>
+          The stats may not be 100% accurate due to inaccurate data from
+          LeetCode and clist.by
+        </p>
+      </div>
+
       <footer className='absolute bottom-0 left-0 w-full py-6 text-center'>
         <p className='text-sm'>
           Made by{' '}
@@ -148,3 +155,5 @@ export default async function MainPage() {
     </main>
   );
 }
+
+export const revalidate = 900;
