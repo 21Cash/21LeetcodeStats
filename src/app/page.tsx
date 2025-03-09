@@ -46,21 +46,21 @@ export default async function MainPage() {
     : 'N/A';
 
   return (
-    <main className='relative min-h-screen bg-dark text-white'>
-      <header className='absolute top-0 left-0 w-full flex justify-center mt-20'>
-        <h1 className='text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-green-400 to-sky-400 text-transparent bg-clip-text drop-shadow-lg'>
+    <main className='flex flex-col min-h-screen bg-dark text-white'>
+      <header className='w-full pt-16 flex justify-center'>
+        <h1 className='text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-green-400 to-sky-400 text-transparent bg-clip-text drop-shadow-lg'>
           21LeetcodeStats
         </h1>
       </header>
 
-      <section className='flex items-center justify-center min-h-screen'>
-        <div className='flex justify-center gap-36 w-full max-w-6xl'>
-          {/* Guardian Info */}
-          <div className='flex flex-col items-center bg-gray-800 p-10 rounded-lg shadow-lg w-6/12 hover:shadow-2xl transition-shadow duration-300 ease-in-out ring-2 ring-blue-500'>
+      <section className='flex-grow flex items-center justify-center px-4 py-8'>
+        <div className='flex flex-col md:flex-row gap-8 md:gap-12 w-full max-w-6xl'>
+          {/* Guardian Info Card */}
+          <div className='flex flex-col items-center bg-gray-800 p-6 md:p-10 rounded-lg shadow-lg w-full md:w-1/2 hover:shadow-2xl transition-shadow duration-300 ease-in-out ring-2 ring-blue-500'>
             <img
               src='/Guardian.gif'
               alt='Guardian'
-              className='w-40 h-40 mb-4'
+              className='w-32 h-32 md:w-40 md:h-40 mb-4'
             />
             <h3 className='text-lg font-semibold'>Lowest Rated Guardian:</h3>
             <a
@@ -72,7 +72,7 @@ export default async function MainPage() {
               {guardianInfo.username}
             </a>
             <p className='text-base mt-2'>
-              Rating: {parseFloat(guardianInfo.userRating).toFixed(2)}
+              Rating: {Number.parseFloat(guardianInfo.userRating).toFixed(2)}
             </p>
             <p className='text-base mt-2'>
               Global Ranking: {guardianInfo.userGlobalRanking}
@@ -90,9 +90,13 @@ export default async function MainPage() {
             </p>
           </div>
 
-          {/* Knight Info */}
-          <div className='flex flex-col items-center bg-gray-800 p-10 rounded-lg shadow-lg w-6/12 hover:shadow-2xl transition-shadow duration-300 ease-in-out ring-2 ring-green-500'>
-            <img src='/Knight.gif' alt='Knight' className='w-40 h-40 mb-4' />
+          {/* Knight Info Card */}
+          <div className='flex flex-col items-center bg-gray-800 p-6 md:p-10 rounded-lg shadow-lg w-full md:w-1/2 hover:shadow-2xl transition-shadow duration-300 ease-in-out ring-2 ring-green-500'>
+            <img
+              src='/Knight.gif'
+              alt='Knight'
+              className='w-32 h-32 md:w-40 md:h-40 mb-4'
+            />
             <h3 className='text-lg font-semibold'>Lowest Rated Knight:</h3>
             <a
               href={`https://leetcode.com/${knightInfo.username}`}
@@ -103,7 +107,7 @@ export default async function MainPage() {
               {knightInfo.username}
             </a>
             <p className='text-base mt-2'>
-              Rating: {parseFloat(knightInfo.userRating).toFixed(2)}
+              Rating: {Number.parseFloat(knightInfo.userRating).toFixed(2)}
             </p>
             <p className='text-base mt-2'>
               Global Ranking: {knightInfo.userGlobalRanking}
@@ -123,35 +127,36 @@ export default async function MainPage() {
         </div>
       </section>
 
-      {/* Note Section */}
-      <div className='absolute bottom-20 left-0 w-full py-2 text-center'>
-        <p className='text-sm text-gray-400'>
-          The stats may not be 100% accurate due to inaccurate data from
-          LeetCode and clist.by
-        </p>
-      </div>
-
-      <footer className='absolute bottom-0 left-0 w-full py-6 text-center'>
-        <p className='text-sm'>
-          Made by{' '}
+      {/* Bottom Note and Footer */}
+      <div className='w-full mt-auto'>
+        <div className='w-full py-2 text-center'>
+          <p className='text-sm text-gray-400'>
+            The stats may not be 100% accurate due to inaccurate data from
+            LeetCode and clist.by
+          </p>
+        </div>
+        <footer className='w-full py-6 text-center'>
+          <p className='text-sm'>
+            Made by{' '}
+            <a
+              href='https://github.com/21Cash'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-blue-400 hover:underline'
+            >
+              21Cash
+            </a>
+          </p>
           <a
-            href='https://github.com/21Cash'
+            href='https://github.com/21Cash/21LeetcodeStats'
             target='_blank'
             rel='noopener noreferrer'
-            className='text-blue-400 hover:underline'
+            className='text-sm text-blue-400 hover:underline mt-2 block'
           >
-            21Cash
+            Link to GitHub Source Code
           </a>
-        </p>
-        <a
-          href='https://github.com/21Cash/21LeetcodeStats'
-          target='_blank'
-          rel='noopener noreferrer'
-          className='text-sm text-blue-400 hover:underline'
-        >
-          Link to GitHub Source Code
-        </a>
-      </footer>
+        </footer>
+      </div>
     </main>
   );
 }
