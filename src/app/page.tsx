@@ -1,3 +1,25 @@
+function formatToIST(date) {
+  if (!date) return 'N/A';
+
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Kolkata',
+  });
+
+  return (
+    formatter
+      .format(date)
+      .replace(/(\w{3}) (\d{2}) (\w{3}) (\d{4})/, '$1, $2 $3 $4') + ' IST'
+  );
+}
+
 export default async function MainPage() {
   const guardianInfoResponse = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/guardian-stats`,
@@ -31,19 +53,15 @@ export default async function MainPage() {
       )
     : null;
 
+  const guardianLastUpdatedIST = formatToIST(guardianLastUpdatedDate);
+  const knightLastUpdatedIST = formatToIST(knightLastUpdatedDate);
+
   const guardianLastUpdatedISO = guardianLastUpdatedDate
     ? guardianLastUpdatedDate.toISOString()
     : '';
-  const guardianLastUpdatedUTC = guardianLastUpdatedDate
-    ? guardianLastUpdatedDate.toUTCString()
-    : 'N/A';
-
   const knightLastUpdatedISO = knightLastUpdatedDate
     ? knightLastUpdatedDate.toISOString()
     : '';
-  const knightLastUpdatedUTC = knightLastUpdatedDate
-    ? knightLastUpdatedDate.toUTCString()
-    : 'N/A';
 
   return (
     <main className='flex flex-col min-h-screen bg-dark text-white'>
@@ -78,14 +96,14 @@ export default async function MainPage() {
               Global Ranking: {guardianInfo.userGlobalRanking}
             </p>
             <p className='text-sm mt-2'>
-              Last Updated:
+              Last Updated:{' '}
               <a
                 href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${guardianLastUpdatedISO}&msg=Guardian%20Last%20Updated`}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-blue-400 hover:underline ml-1'
+                className='text-blue-400 hover:underline'
               >
-                {guardianLastUpdatedUTC}
+                {guardianLastUpdatedIST}
               </a>
             </p>
           </div>
@@ -113,14 +131,14 @@ export default async function MainPage() {
               Global Ranking: {knightInfo.userGlobalRanking}
             </p>
             <p className='text-sm mt-2'>
-              Last Updated:
+              Last Updated:{' '}
               <a
                 href={`https://www.timeanddate.com/worldclock/fixedtime.html?iso=${knightLastUpdatedISO}&msg=Knight%20Last%20Updated`}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='text-blue-400 hover:underline ml-1'
+                className='text-blue-400 hover:underline'
               >
-                {knightLastUpdatedUTC}
+                {knightLastUpdatedIST}
               </a>
             </p>
           </div>
